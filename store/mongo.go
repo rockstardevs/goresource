@@ -1,6 +1,8 @@
 package store
 
 import (
+	"fmt"
+
 	"github.com/golang/glog"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
@@ -25,48 +27,53 @@ func NewMongoStore(addr string, database string) (Store, error) {
 }
 
 // ListEntities queries and returns all entities matching the given filters.
-func (s *MongoStore) ListEntities(name string, filters interface{}) ([]interface{}, error) {
-	entities := make([]interface{}, 0)
-	err := s.db.C(name).Find(filters).All(&entities)
+func (s *MongoStore) ListEntities(name string, filters interface{}, result interface{}) error {
+	err := s.db.C(name).Find(filters).All(result)
 	if err != nil {
 		glog.Errorf("error listing entities of %s - %s", name, err)
-		return nil, err
+		return nil
 	}
-	return entities, nil
+	return nil
 }
 
 // ListEntities fetches a specific entity with the given id.
-func (s *MongoStore) GetEntity(name string, id string) (interface{}, error) {
-	var entity interface{}
-	entityId := bson.ObjectIdHex(id)
-	err := s.db.C(name).FindId(entityId).One(&entity)
-	if err != nil {
-		return nil, err
+func (s *MongoStore) GetEntity(name string, id string, result interface{}) error {
+	if !bson.IsObjectIdHex(id) {
+		return fmt.Errorf("invalid object id %s.", id)
 	}
-	return entity, nil
+	entityId := bson.ObjectIdHex(id)
+	err := s.db.C(name).FindId(entityId).One(result)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 // CreateEntity persists a new entity with the given data.
-func (s *MongoStore) CreateEntity(name string, data interface{}) (interface{}, error) {
-	var result interface{}
+func (s *MongoStore) CreateEntity(name string, data interface{}, result interface{}) error {
 	err := s.db.C(name).Insert(data)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	err = s.db.C(name).Find(data).One(&result)
+	err = s.db.C(name).Find(data).One(result)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	return result, nil
+	return nil
 }
 
 // UpdateEntity updates a specific entity corresponding the given id, with the given data.
-func (s *MongoStore) UpdateEntity(name string, id string, data interface{}) (interface{}, error) {
+func (s *MongoStore) UpdateEntity(name string, id string, data interface{}, result interface{}) error {
 	entityId := bson.ObjectIdHex(id)
-	if err := s.db.C(name).UpdateId(entityId, data); err != nil {
-		return nil, err
+	err := s.db.C(name).UpdateId(entityId, data)
+	if err != nil {
+		return err
 	}
-	return data, nil
+	err = s.db.C(name).FindId(entityId).One(result)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 // DeleteEntity removes a specific entity with the given id.

@@ -5,8 +5,9 @@ import (
 	"fmt"
 	"net/http"
 
+	"goresource/util"
+
 	"github.com/gorilla/mux"
-	"github.com/rockstardevs/goresource/util"
 )
 
 // Entity is an interface implemented by entities we store in the database.

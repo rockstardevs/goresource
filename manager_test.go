@@ -1,10 +1,10 @@
 package goresource_test
 
 import (
-	"github.com/golang/mock/gomock"
-	"github.com/rockstardevs/goresource"
-	"github.com/rockstardevs/goresource/mocks"
+	"goresource"
+	"goresource/mocks"
 
+	"github.com/golang/mock/gomock"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -34,7 +34,7 @@ var _ = Describe("DefaultManager", func() {
 
 	Describe(".GetEntity", func() {
 		It("works correctly.", func() {
-			store.EXPECT().GetEntity("test", "foo")
+			store.EXPECT().GetEntity("test", "foo", gomock.Any())
 			manager.GetEntity("foo", nil)
 		})
 	})
@@ -42,20 +42,20 @@ var _ = Describe("DefaultManager", func() {
 	Describe(".CreateEntity", func() {
 		It("works correctly.", func() {
 			e := &mocks.MockEntity{"fakeid"}
-			store.EXPECT().CreateEntity("test", e)
+			store.EXPECT().CreateEntity("test", e, gomock.Any())
 			manager.CreateEntity(e, nil)
 		})
 	})
 	Describe(".ListEntities", func() {
 		It("works correctly.", func() {
-			store.EXPECT().ListEntities("test", nil)
+			store.EXPECT().ListEntities("test", nil, gomock.Any())
 			manager.ListEntities(nil)
 		})
 	})
 	Describe(".UpdateEntity", func() {
 		It("works correctly.", func() {
 			e := &mocks.MockEntity{"fakeid"}
-			store.EXPECT().UpdateEntity("test", "fakeid", e)
+			store.EXPECT().UpdateEntity("test", "fakeid", e, gomock.Any())
 			manager.UpdateEntity("fakeid", e, nil)
 		})
 	})

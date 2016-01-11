@@ -7,10 +7,11 @@ import (
 	"net/http/httptest"
 	"strings"
 
+	"goresource"
+	"goresource/mocks"
+
 	"github.com/golang/mock/gomock"
 	"github.com/gorilla/mux"
-	"github.com/rockstardevs/goresource"
-	"github.com/rockstardevs/goresource/mocks"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
