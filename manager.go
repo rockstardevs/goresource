@@ -4,7 +4,7 @@ import (
 	"io"
 	"net/url"
 
-	"goresource/store"
+	"github.com/rockstardevs/goresource/store"
 )
 
 // ResourceManager is an interface implemented by managers for entities.

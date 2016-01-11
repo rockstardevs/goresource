@@ -1,13 +1,12 @@
 package main
 
 import (
-	"goresource/store"
 	"log"
 	"net/http"
 
-	"goresource"
-
 	"github.com/gorilla/mux"
+	"github.com/rockstardevs/goresource"
+	"github.com/rockstardevs/goresource/store"
 )
 
 func main() {

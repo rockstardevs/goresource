@@ -3,9 +3,10 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"goresource"
-	"goresource/store"
 	"io"
+
+	"github.com/rockstardevs/goresource"
+	"github.com/rockstardevs/goresource/store"
 )
 
 type Book struct {
