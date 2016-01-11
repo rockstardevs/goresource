@@ -14,8 +14,7 @@ goresource comes with a few basic structs and interfaces.
 
 Let's say we have a Book type.
 
-```golang
-
+```go
 type Book {
   ID   string `json:"id"`
     ISBN string `json:"isbn"`
@@ -25,8 +24,7 @@ type Book {
 
 To implement a RESTful API for the Book type, first we satisfy the Entity interface for Book.
 
-```golang
-
+```go
 func (b Book) HasId() bool {
   if b.ID != "" {
       return true
@@ -41,8 +39,7 @@ func (b Book) GetId() string {
 
 Next we write a ResourceManager for Book.
 
-```golang
-
+```go
 type BookManager struct {
   goresource.DefaultManager
 }
@@ -54,8 +51,7 @@ func NewBookManager(name string, store store.Store) *BookManager {
 
 BookManager should satify the ResourceManager interface
 
-```golang
-
+```go
 func (manager *BookManager) New() goresource.Entity {
   return &Book{}
 }
@@ -76,8 +72,7 @@ func (manager *BookManager) ParseJSON(data io.ReadCloser) (goresource.Entity, er
 
 Finally we create a new Resource with the BookManager
 
-```golang
-
+```go
 router := mux.NewRouter().PathPrefix("/api").Subrouter()
 store := store.NewMongoStore("localhost:27017", "booksdb")
 defer store.Close()
@@ -88,10 +83,9 @@ bookResource := goresource.NewResource(manager, router)
 
 The router can them be used to serve the REST API endpoints.
 
-```golang
-
-  http.Handle("/", router)
-  http.ListenAndServe(":8080", nil)
+```go
+http.Handle("/", router)
+http.ListenAndServe(":8080", nil)
 ```
 
 See the example directory for the full example code.
