@@ -1,6 +1,7 @@
 package goresource_test
 
 import (
+	"fmt"
 	"goresource"
 	"goresource/mocks"
 
@@ -27,23 +28,45 @@ var _ = Describe("DefaultManager", func() {
 	})
 
 	Describe(".GetName", func() {
-		It("works correctly.", func() {
+		It("returns the manager name.", func() {
 			Expect(manager.GetName()).To(Equal("test"))
 		})
 	})
 
 	Describe(".GetEntity", func() {
-		It("works correctly.", func() {
-			store.EXPECT().GetEntity("test", "foo", gomock.Any())
-			manager.GetEntity("foo", nil)
+		It("returns the fetched entity from the store.", func() {
+			want := map[string]interface{}{"bar": "baz"}
+			store.EXPECT().GetEntity("test", "foo", gomock.Any()).Times(1).SetArg(2, want).Return(nil)
+			got, err := manager.GetEntity("foo", nil)
+			Expect(err).To(BeNil())
+			Expect(got.(map[string]interface{})["bar"]).To(Equal("baz"))
+		})
+		It("passes through any errors from the store.", func() {
+			e := fmt.Errorf("test error")
+			store.EXPECT().GetEntity("test", "foo", gomock.Any()).Times(1).Return(e)
+			got, err := manager.GetEntity("foo", nil)
+			Expect(err).ToNot(BeNil())
+			Expect(err.Error()).To(Equal("test error"))
+			Expect(got).To(BeNil())
 		})
 	})
 
 	Describe(".CreateEntity", func() {
-		It("works correctly.", func() {
+		It("creates a database entity and returns the created entity.", func() {
+			want := map[string]interface{}{"bar": "baz"}
 			e := &mocks.MockEntity{"fakeid"}
-			store.EXPECT().CreateEntity("test", e, gomock.Any())
-			manager.CreateEntity(e, nil)
+			store.EXPECT().CreateEntity("test", e, gomock.Any()).Times(1).SetArg(2, want).Return(nil)
+			got, err := manager.CreateEntity(e, nil)
+			Expect(err).To(BeNil())
+			Expect(got.(map[string]interface{})["bar"]).To(Equal("baz"))
+		})
+		It("passes through any errors from the store.", func() {
+			e := fmt.Errorf("test error")
+			store.EXPECT().CreateEntity("test", nil, gomock.Any()).Times(1).Return(e)
+			got, err := manager.CreateEntity(nil, nil)
+			Expect(err).ToNot(BeNil())
+			Expect(err.Error()).To(Equal("test error"))
+			Expect(got).To(BeNil())
 		})
 	})
 	Describe(".ListEntities", func() {

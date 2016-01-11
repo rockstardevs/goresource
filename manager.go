@@ -39,8 +39,8 @@ func (manager DefaultManager) GetName() string {
 
 // GetEntity fetches a single resource entity with the given id.
 func (manager DefaultManager) GetEntity(id string, _ url.Values) (interface{}, error) {
-	var result interface{}
-	if err := manager.Store.GetEntity(manager.Name, id, result); err != nil {
+	result := make(map[string]interface{})
+	if err := manager.Store.GetEntity(manager.Name, id, &result); err != nil {
 		return nil, err
 	}
 	return result, nil
@@ -48,8 +48,8 @@ func (manager DefaultManager) GetEntity(id string, _ url.Values) (interface{}, e
 
 // CreateEntity persists the given entity.
 func (manager DefaultManager) CreateEntity(e Entity, _ url.Values) (interface{}, error) {
-	var result interface{}
-	if err := manager.Store.CreateEntity(manager.Name, e, result); err != nil {
+	result := make(map[string]interface{})
+	if err := manager.Store.CreateEntity(manager.Name, e, &result); err != nil {
 		return nil, err
 	}
 	return result, nil
@@ -57,8 +57,8 @@ func (manager DefaultManager) CreateEntity(e Entity, _ url.Values) (interface{},
 
 // ListEntities fetches all resource entities.
 func (manager DefaultManager) ListEntities(_ url.Values) ([]interface{}, error) {
-	var result []interface{}
-	if err := manager.Store.ListEntities(manager.Name, nil, result); err != nil {
+	result := make([]interface{}, 0)
+	if err := manager.Store.ListEntities(manager.Name, nil, &result); err != nil {
 		return nil, err
 	}
 	return result, nil
@@ -66,8 +66,8 @@ func (manager DefaultManager) ListEntities(_ url.Values) ([]interface{}, error) 
 
 // UpdateEntity persists changes to the given entity with the given id.
 func (manager DefaultManager) UpdateEntity(id string, e Entity, _ url.Values) (interface{}, error) {
-	var result interface{}
-	if err := manager.Store.UpdateEntity(manager.Name, id, e, result); err != nil {
+	result := make(map[string]interface{})
+	if err := manager.Store.UpdateEntity(manager.Name, id, e, &result); err != nil {
 		return nil, err
 	}
 	return result, nil
