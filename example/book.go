@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/rockstardevs/goresource"
-	"github.com/rockstardevs/goresource/store"
+	"goresource"
+	"goresource/store"
 )
 
 type Book struct {
