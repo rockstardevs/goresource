@@ -17,7 +17,7 @@ Let's say we have a Book type.
 ```go
 type Book {
   ID   string `json:"id"`
-    ISBN string `json:"isbn"`
+  ISBN string `json:"isbn"`
   Name string `json:"name"`
 }
 ```
