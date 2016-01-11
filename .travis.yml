@@ -1,0 +1,16 @@
+language: go
+go:
+  - 1.5.2
+  - tip
+env:
+  secure: "OJwLfD/N0+tiYjur+1KFkiLCxk/Nr5F00GxeJcSo2Gs0tRF3rc/eFK0PQ11WxGDk1+GqFOT2NRJPuLeMeNuiq+6nweB2yOVqbXBXT65hiwjEmYLKWs68zKFKbPo/aiVA5qkTO90n2a/mTaavFwiKgVvsBHVcYUr4s4LNVywh4HMnhCxNokVLR/MqQUv6WFSXJwQQrnKUaGkijfBVTfSBx/Qfg0DAIP1frtzu7TKbELWoqgpdO/2tVZeSMfS3SB/pddGYYbheIW7y+DVDxGvyq6xMsfKXfyyIyEvgLag86oePjU+nFwan4lbyBhwCO5Ii+hp5RYKb8vSjQKZ/Ewx22bo4/Lljg0IQjv8cv+A5Cdngt08hufwrpczu1EY0N2mNld1f1R7ZfAldaIUxoOUJqu78oaM7C5r4oO+xA/HfIkJ8e/bBVRoGIryOD34m8aRZaJL9LIR/MG2g/clPtZqBEhsY02rhfeYgFhKKFLy1LtUuXvz9NwJ1YDNK/C6+08tqTbZfNfK+UIoCpGRIMaWz+7sUdeUa1OAqOgeLIJkEs69WdZSwx7kEH2bUZRTrH2zTsg8aO9GvPIvWbw3K/m9Yr904zJ86PcaQfGwTE7gJM4GNC+6dtr95jGDKSBWfjVgdH0b5zH4ynQ8sVjrNVm2WA6zQ9C7WcumFZ0b9m5rbx+o="
+install:
+  - go get github.com/modocache/gover
+  - go get github.com/mattn/goveralls
+  - go get github.com/onsi/ginkgo/ginkgo
+  - go get github.com/onsi/gomega
+  - go get -t ./...
+script:
+  - ginkgo -r --randomizeAllSpecs -cover
+  - gover
+  - goveralls -service=travis-ci -coverprofile=gover.coverprofile -repotoken $COVERALLS_TOKEN

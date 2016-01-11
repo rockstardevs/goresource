@@ -122,7 +122,6 @@ ginkgo -r
 - Remove hard dependency on mux.Router and accept any Router.
 - Implement addition stores, currently only MongoDB is implemented.
 - Unit tests for store.
-- Setup CI
 
 ## Contributing
 
