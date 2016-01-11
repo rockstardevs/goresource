@@ -2,6 +2,7 @@ package store
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/golang/glog"
 	"gopkg.in/mgo.v2"
@@ -15,8 +16,17 @@ type MongoStore struct {
 }
 
 // NewMongoStore returns an initialized store or any initialization errors.
-func NewMongoStore(addr string, database string) (Store, error) {
-	session, err := mgo.Dial(addr)
+func NewMongoStore(addr string, database string, timeout time.Duration) (Store, error) {
+	var (
+		session *mgo.Session
+		err     error
+	)
+	if timeout != 0 {
+		info := &mgo.DialInfo{Addrs: []string{addr}, Timeout: timeout, Database: database}
+		session, err = mgo.DialWithInfo(info)
+	} else {
+		session, err = mgo.Dial(addr)
+	}
 	if err != nil {
 		return nil, err
 	}
@@ -83,5 +93,7 @@ func (s *MongoStore) DeleteEntity(name string, id string) error {
 
 // Close tears down the database connection and closes the session.
 func (s *MongoStore) Close() {
-	s.session.Close()
+	if s.session != nil {
+		s.session.Close()
+	}
 }

@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"time"
 
 	"goresource"
 	"goresource/store"
@@ -11,7 +12,7 @@ import (
 )
 
 func main() {
-	store, err := store.NewMongoStore("localhost:27017", "booksdb")
+	store, err := store.NewMongoStore("localhost:27017", "booksdb", 5*time.Second)
 	if err != nil {
 		log.Fatal("error connecting store - %s", err)
 	}

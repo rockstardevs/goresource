@@ -2,6 +2,7 @@ package store_test
 
 import (
 	"goresource/store"
+	"time"
 
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
@@ -35,10 +36,15 @@ var _ = Describe("MongoStore", func() {
 
 	Describe("NewMongoStore", func() {
 		It("returns an initialized database.", func() {
-			s, err := store.NewMongoStore(testdbhost, testdbname)
+			s, err := store.NewMongoStore(testdbhost, testdbname, 5*time.Second)
 			defer s.Close()
 			Expect(err).To(BeNil())
 			Expect(s).ToNot(BeNil())
+		})
+		It("passes errors through.", func() {
+			s, err := store.NewMongoStore(testdbhost, testdbname, 1*time.Nanosecond)
+			Expect(err).ToNot(BeNil())
+			Expect(s).To(BeNil())
 		})
 	})
 
@@ -49,7 +55,7 @@ var _ = Describe("MongoStore", func() {
 		)
 
 		BeforeEach(func() {
-			s, err = store.NewMongoStore(testdbhost, testdbname)
+			s, err = store.NewMongoStore(testdbhost, testdbname, 5*time.Second)
 		})
 
 		AfterEach(func() {
@@ -107,7 +113,7 @@ var _ = Describe("MongoStore", func() {
 		)
 
 		BeforeEach(func() {
-			s, err = store.NewMongoStore(testdbhost, testdbname)
+			s, err = store.NewMongoStore(testdbhost, testdbname, 5*time.Second)
 		})
 
 		AfterEach(func() {
@@ -146,7 +152,7 @@ var _ = Describe("MongoStore", func() {
 		)
 
 		BeforeEach(func() {
-			s, err = store.NewMongoStore(testdbhost, testdbname)
+			s, err = store.NewMongoStore(testdbhost, testdbname, 5*time.Second)
 		})
 
 		AfterEach(func() {
@@ -180,7 +186,7 @@ var _ = Describe("MongoStore", func() {
 		)
 
 		BeforeEach(func() {
-			s, err = store.NewMongoStore(testdbhost, testdbname)
+			s, err = store.NewMongoStore(testdbhost, testdbname, 5*time.Second)
 		})
 
 		AfterEach(func() {
@@ -223,7 +229,7 @@ var _ = Describe("MongoStore", func() {
 		)
 
 		BeforeEach(func() {
-			s, err = store.NewMongoStore(testdbhost, testdbname)
+			s, err = store.NewMongoStore(testdbhost, testdbname, 5*time.Second)
 		})
 
 		AfterEach(func() {
