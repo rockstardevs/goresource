@@ -13,7 +13,7 @@ type ResourceManager interface {
 	New() Entity
 	GetEntity(id string, query url.Values) (interface{}, error)
 	CreateEntity(entity Entity, query url.Values) (interface{}, error)
-	ListEntities(query url.Values) ([]interface{}, error)
+	ListEntities(query url.Values) (interface{}, error)
 	UpdateEntity(id string, entity Entity, query url.Values) (interface{}, error)
 	DeleteEntity(id string, query url.Values) error
 	ParseJSON(io.ReadCloser) (Entity, error)

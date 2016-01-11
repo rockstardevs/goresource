@@ -73,9 +73,9 @@ func (_mr *_MockResourceManagerRecorder) GetName() *gomock.Call {
 	return _mr.mock.ctrl.RecordCall(_mr.mock, "GetName")
 }
 
-func (_m *MockResourceManager) ListEntities(_param0 url.Values) ([]interface{}, error) {
+func (_m *MockResourceManager) ListEntities(_param0 url.Values) (interface{}, error) {
 	ret := _m.ctrl.Call(_m, "ListEntities", _param0)
-	ret0, _ := ret[0].([]interface{})
+	ret0, _ := ret[0].(interface{})
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
