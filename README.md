@@ -74,7 +74,7 @@ Finally we create a new Resource with the BookManager
 
 ```go
 router := mux.NewRouter().PathPrefix("/api").Subrouter()
-store := store.NewMongoStore("localhost:27017", "booksdb")
+store, _ := store.NewMongoStore("localhost:27017", "booksdb")
 defer store.Close()
 
 manager := NewBookManager("books", store)
