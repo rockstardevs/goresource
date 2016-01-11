@@ -166,7 +166,7 @@ var _ = Describe("MongoStore", func() {
 		Context("given an invalid entity.", func() {
 			It("returns an error.", func() {
 				var result TestItem
-				err := s.CreateEntity(testcoll, nil, &result)
+				s.CreateEntity(testcoll, nil, &result)
 				// This depends on the mongod version.
 				// It seems in 2.x, inserting a null object doesn't return an error.
 				// While in 3.x, is returns an error.
