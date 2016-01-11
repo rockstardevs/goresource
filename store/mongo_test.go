@@ -19,10 +19,8 @@ type TestItem struct {
 
 var _ = Describe("MongoStore", func() {
 	var (
-		session  *mgo.Session
-		database *mgo.Database
-		//collection *mgo.Collection
-		//query      *mgo.Query
+		session    *mgo.Session
+		database   *mgo.Database
 		testdbhost = "127.0.0.1"
 		testdbname = "goresourcetestdatabase"
 		testcoll   = "testitems"
@@ -35,8 +33,14 @@ var _ = Describe("MongoStore", func() {
 	})
 
 	Describe("NewMongoStore", func() {
-		It("returns an initialized database.", func() {
+		It("returns an initialized database with timeout.", func() {
 			s, err := store.NewMongoStore(testdbhost, testdbname, 5*time.Second)
+			defer s.Close()
+			Expect(err).To(BeNil())
+			Expect(s).ToNot(BeNil())
+		})
+		It("returns an initialized database without timeout.", func() {
+			s, err := store.NewMongoStore(testdbhost, testdbname, 0)
 			defer s.Close()
 			Expect(err).To(BeNil())
 			Expect(s).ToNot(BeNil())
@@ -60,6 +64,12 @@ var _ = Describe("MongoStore", func() {
 
 		AfterEach(func() {
 			s.Close()
+		})
+
+		It("passes errors from the store through.", func() {
+			var items []TestItem
+			err := s.ListEntities(testcoll, bson.M{"$a": "test"}, &items)
+			Expect(err).ToNot(BeNil())
 		})
 
 		Context("if entities exist in the database.", func() {
@@ -135,7 +145,7 @@ var _ = Describe("MongoStore", func() {
 			})
 		})
 
-		Context("given an invalid id", func() {
+		Context("given an non existent id", func() {
 			It("returns an error.", func() {
 				var result TestItem
 				source := TestItem{Name: "foo", Tag: "bar", ID: bson.NewObjectId()}
@@ -143,6 +153,15 @@ var _ = Describe("MongoStore", func() {
 				Expect(err).ToNot(BeNil())
 			})
 		})
+
+		Context("given an invalid id", func() {
+			It("returns an error.", func() {
+				var result TestItem
+				err := s.GetEntity(testcoll, "invalid-id", &result)
+				Expect(err).ToNot(BeNil())
+			})
+		})
+
 	})
 
 	Describe("CreateEntity", func() {

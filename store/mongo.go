@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/golang/glog"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -40,8 +39,7 @@ func NewMongoStore(addr string, database string, timeout time.Duration) (Store, 
 func (s *MongoStore) ListEntities(name string, filters interface{}, result interface{}) error {
 	err := s.db.C(name).Find(filters).All(result)
 	if err != nil {
-		glog.Errorf("error listing entities of %s - %s", name, err)
-		return nil
+		return err
 	}
 	return nil
 }
@@ -65,8 +63,7 @@ func (s *MongoStore) CreateEntity(name string, data interface{}, result interfac
 	if err != nil {
 		return err
 	}
-	err = s.db.C(name).Find(data).One(result)
-	if err != nil {
+	if err = s.db.C(name).Find(data).One(result); err != nil {
 		return err
 	}
 	return nil
@@ -79,8 +76,7 @@ func (s *MongoStore) UpdateEntity(name string, id string, data interface{}, resu
 	if err != nil {
 		return err
 	}
-	err = s.db.C(name).FindId(entityId).One(result)
-	if err != nil {
+	if err = s.db.C(name).FindId(entityId).One(result); err != nil {
 		return err
 	}
 	return nil
