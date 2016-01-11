@@ -4,7 +4,7 @@ import (
 	"io"
 	"net/url"
 
-	"goresource"
+	"github.com/rockstardevs/goresource"
 
 	gomock "github.com/golang/mock/gomock"
 )

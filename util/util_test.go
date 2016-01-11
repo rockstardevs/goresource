@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 
-	"goresource/util"
+	"github.com/rockstardevs/goresource/util"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
