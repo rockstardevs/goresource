@@ -1,16 +1,19 @@
 language: go
 go:
-  - 1.5.2
-  - tip
+- 1.5.2
+- tip
 env:
-  secure: "OJwLfD/N0+tiYjur+1KFkiLCxk/Nr5F00GxeJcSo2Gs0tRF3rc/eFK0PQ11WxGDk1+GqFOT2NRJPuLeMeNuiq+6nweB2yOVqbXBXT65hiwjEmYLKWs68zKFKbPo/aiVA5qkTO90n2a/mTaavFwiKgVvsBHVcYUr4s4LNVywh4HMnhCxNokVLR/MqQUv6WFSXJwQQrnKUaGkijfBVTfSBx/Qfg0DAIP1frtzu7TKbELWoqgpdO/2tVZeSMfS3SB/pddGYYbheIW7y+DVDxGvyq6xMsfKXfyyIyEvgLag86oePjU+nFwan4lbyBhwCO5Ii+hp5RYKb8vSjQKZ/Ewx22bo4/Lljg0IQjv8cv+A5Cdngt08hufwrpczu1EY0N2mNld1f1R7ZfAldaIUxoOUJqu78oaM7C5r4oO+xA/HfIkJ8e/bBVRoGIryOD34m8aRZaJL9LIR/MG2g/clPtZqBEhsY02rhfeYgFhKKFLy1LtUuXvz9NwJ1YDNK/C6+08tqTbZfNfK+UIoCpGRIMaWz+7sUdeUa1OAqOgeLIJkEs69WdZSwx7kEH2bUZRTrH2zTsg8aO9GvPIvWbw3K/m9Yr904zJ86PcaQfGwTE7gJM4GNC+6dtr95jGDKSBWfjVgdH0b5zH4ynQ8sVjrNVm2WA6zQ9C7WcumFZ0b9m5rbx+o="
+  secure: OJwLfD/N0+tiYjur+1KFkiLCxk/Nr5F00GxeJcSo2Gs0tRF3rc/eFK0PQ11WxGDk1+GqFOT2NRJPuLeMeNuiq+6nweB2yOVqbXBXT65hiwjEmYLKWs68zKFKbPo/aiVA5qkTO90n2a/mTaavFwiKgVvsBHVcYUr4s4LNVywh4HMnhCxNokVLR/MqQUv6WFSXJwQQrnKUaGkijfBVTfSBx/Qfg0DAIP1frtzu7TKbELWoqgpdO/2tVZeSMfS3SB/pddGYYbheIW7y+DVDxGvyq6xMsfKXfyyIyEvgLag86oePjU+nFwan4lbyBhwCO5Ii+hp5RYKb8vSjQKZ/Ewx22bo4/Lljg0IQjv8cv+A5Cdngt08hufwrpczu1EY0N2mNld1f1R7ZfAldaIUxoOUJqu78oaM7C5r4oO+xA/HfIkJ8e/bBVRoGIryOD34m8aRZaJL9LIR/MG2g/clPtZqBEhsY02rhfeYgFhKKFLy1LtUuXvz9NwJ1YDNK/C6+08tqTbZfNfK+UIoCpGRIMaWz+7sUdeUa1OAqOgeLIJkEs69WdZSwx7kEH2bUZRTrH2zTsg8aO9GvPIvWbw3K/m9Yr904zJ86PcaQfGwTE7gJM4GNC+6dtr95jGDKSBWfjVgdH0b5zH4ynQ8sVjrNVm2WA6zQ9C7WcumFZ0b9m5rbx+o=
 install:
-  - go get github.com/modocache/gover
-  - go get github.com/mattn/goveralls
-  - go get github.com/onsi/ginkgo/ginkgo
-  - go get github.com/onsi/gomega
-  - go get -v ./...
+- go get github.com/modocache/gover
+- go get github.com/mattn/goveralls
+- go get github.com/onsi/ginkgo/ginkgo
+- go get github.com/onsi/gomega
+- go get -v ./...
 script: ginkgo -r --randomizeAllSpecs -cover
 after_success:
-  - gover
-  - goveralls -service=travis-ci -coverprofile=gover.coverprofile -repotoken $COVERALLS_TOKEN
+- gover
+- goveralls -service=travis-ci -coverprofile=gover.coverprofile -repotoken $COVERALLS_TOKEN
+notifications:
+  slack:
+    secure: sqcu/4f10bkGS41KSggp06I+6joTpGQLZPRX+EPQJuADjPDX5eoQCzforaXp4fOH7JbpKXL5zTDykS7wwR806N3iBESGz1uEUlRKswBr88ImUI3se8OMfIW7qdFp0oDe/rIC21emunjWHA1tj/YF1E8YZZZJXoXXqXXTijYolb5mqoypwuVs6p6Lg/D/E8uqzhoN1YsqNOJ4f+z93+bJztMEAEI9goxtuH33voXmibFXflbb36wggkHbuyjALKa6J7Lohq48A/QdG4gI0uVkip4/pwGKrtzmbl/uy7oYELCfIbGQXMuoZfHAcvZiGUU05JhXu4vQisF37eNX5mDO8O8/s3WLONu0XXA8RJUNDRwHt3ahljb3vc4ij9saQTeUwvv8fxknUmhTTXtALTtGAA59N1AaUzC9PBIWfR7LB2/t2oluk/nNKwHWcmeU56cVxlW0xcpoKSgRSjfkGDRyD9KvTbQU7v57lfq+Uz80GbBZWrYeAOr1vhhOiaCDK68EGDy0ZeAjZ9HTuifJCHD7TwnliI+3LQdBlwPIU/fWFc6IBwOVFNLQ5zJ/hq6+WhyWTHuiVvxP6zG74nOAxjrRftax0UPB7CDJa3PJs3WYKyZQcWBJIHs4Y57ZoFJ0a8sg6iWP+xEYiDUI4vROlzco/Sco4ay73k9rJg8l70Sg+A0=
