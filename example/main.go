@@ -5,10 +5,9 @@ import (
 	"net/http"
 	"time"
 
-	"goresource"
-	"goresource/store"
-
 	"github.com/gorilla/mux"
+	"github.com/rockstardevs/goresource"
+	"github.com/rockstardevs/goresource/store"
 )
 
 func main() {
