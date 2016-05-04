@@ -3,7 +3,8 @@ package store_test
 import (
 	"time"
 
-	"github.com/rockstardevs/goresource/store"
+	"goresource/store"
+
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 

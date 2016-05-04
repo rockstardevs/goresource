@@ -101,7 +101,7 @@ go get github.com/rockstardevs/goresource
 tests are written using [ginkgo](http://github.com/onsi/ginkgo).
 
 ```sh
-go get github.com/onsi/ginkgo github.com/onsi/gomega
+go get github.com/onsi/ginkgo/ginkgo github.com/onsi/gomega
 ```
 
 To run all tests recursively

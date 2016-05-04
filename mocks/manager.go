@@ -4,11 +4,10 @@
 package mocks
 
 import (
+	gomock "github.com/golang/mock/gomock"
+	goresource "goresource"
 	io "io"
 	url "net/url"
-
-	gomock "github.com/golang/mock/gomock"
-	goresource "github.com/rockstardevs/goresource"
 )
 
 // Mock of ResourceManager interface
