@@ -23,7 +23,7 @@ script: ginkgo -r --randomizeAllSpecs -cover
 after_success:
 - gover
 - goveralls -service=travis-ci -coverprofile=gover.coverprofile -repotoken $COVERALLS_TOKEN
-- go test -coverprofile=coverage.txt -covermode=atomic
+- go test -coverprofile coverage.txt -coverpkg goresource/...
 - bash <(curl -s https://codecov.io/bash)
 notifications:
   slack:
