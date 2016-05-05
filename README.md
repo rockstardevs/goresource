@@ -1,4 +1,4 @@
-# goresource [![Build Status](https://travis-ci.org/rockstardevs/goresource.svg?branch=master)](https://travis-ci.org/rockstardevs/goresource) [![Coverage Status](https://coveralls.io/repos/rockstardevs/goresource/badge.svg?branch=master&service=github&time=1452530170)](https://coveralls.io/github/rockstardevs/goresource?branch=master) 
+# goresource [![Build Status](https://travis-ci.org/rockstardevs/goresource.svg?branch=master)](https://travis-ci.org/rockstardevs/goresource) [![codecov](https://codecov.io/gh/rockstardevs/goresource/branch/master/graph/badge.svg)](https://codecov.io/gh/rockstardevs/goresource) [![coveralls](https://coveralls.io/repos/rockstardevs/goresource/badge.svg?branch=master&service=github&time=1452530170)](https://coveralls.io/github/rockstardevs/goresource?branch=master) 
 
 goresource provides a micro framework for easy implementation of RESTful APIs with golang.
 
