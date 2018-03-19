@@ -2,6 +2,7 @@ package goresource_test
 
 import (
 	"fmt"
+	"net/url"
 
 	"goresource"
 	"goresource/mocks"
@@ -73,6 +74,17 @@ var _ = Describe("DefaultManager", func() {
 	})
 	Describe(".ListEntities", func() {
 		It("returns the fetched entities from the store.", func() {
+			want := []map[string]interface{}{{"item1": "value1"}, {"item2": "value2"}}
+			store.EXPECT().ListEntities("test", url.Values{"field": []string{"value"}}, gomock.Any()).Times(1).SetArg(2, want).Return(nil)
+			result, err := manager.ListEntities(url.Values{"field": []string{"value"}})
+			Expect(err).To(BeNil())
+			got, ok := result.([]map[string]interface{})
+			Expect(ok).To(BeTrue())
+			Expect(len(got)).To(Equal(2))
+			Expect(got[0]["item1"]).To(Equal("value1"))
+			Expect(got[1]["item2"]).To(Equal("value2"))
+		})
+		It("returns the fetched entities with filters from the store.", func() {
 			want := []map[string]interface{}{{"item1": "value1"}, {"item2": "value2"}}
 			store.EXPECT().ListEntities("test", nil, gomock.Any()).Times(1).SetArg(2, want).Return(nil)
 			result, err := manager.ListEntities(nil)

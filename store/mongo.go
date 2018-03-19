@@ -44,7 +44,7 @@ func (s *MongoStore) ListEntities(name string, filters url.Values, result interf
 		if strings.HasSuffix(k, "~") {
 			search[k[0:len(k)-1]] = bson.M{"$regex": v[0], "$options": "im"}
 		} else {
-			if len(v) > 0 {
+			if len(v) > 1 {
 				search[k] = bson.M{"$in": v}
 			} else {
 				search[k] = v[0]
