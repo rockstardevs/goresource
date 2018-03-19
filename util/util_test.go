@@ -2,6 +2,7 @@ package util_test
 
 import (
 	"io/ioutil"
+	"math"
 	"net/http"
 	"net/http/httptest"
 
@@ -97,12 +98,12 @@ var _ = Describe("Util", func() {
 		Context("given invalid json", func() {
 			It("responds with an error", func() {
 				data := struct {
-					Invalid map[int]string
-				}{make(map[int]string)}
+					Invalid float64
+				}{math.Inf(1)}
 				util.WriteJSON(data, rw)
 				got, err := ioutil.ReadAll(rw.Body)
 				Expect(err).To(BeNil())
-				Expect(got).To(Equal([]byte("json: unsupported type: map[int]string\n")))
+				Expect(got).To(Equal([]byte("json: unsupported value: +Inf\n")))
 				Expect(rw.Code).To(Equal(http.StatusInternalServerError))
 				Expect(rw.Header().Get("Content-Type")).To(Equal("text/plain; charset=utf-8"))
 			})
