@@ -1,6 +1,7 @@
 package store_test
 
 import (
+	"net/url"
 	"time"
 
 	"goresource/store"
@@ -69,7 +70,7 @@ var _ = Describe("MongoStore", func() {
 
 		It("passes errors from the store through.", func() {
 			var items []TestItem
-			err := s.ListEntities(testcoll, bson.M{"$a": "test"}, &items)
+			err := s.ListEntities(testcoll, url.Values{"$a": []string{"test"}}, &items)
 			Expect(err).ToNot(BeNil())
 		})
 
@@ -79,25 +80,48 @@ var _ = Describe("MongoStore", func() {
 					TestItem{Name: "item1", Tag: ""},
 					TestItem{Name: "item2", Tag: "imp"},
 					TestItem{Name: "item3", Tag: "imp"},
-					TestItem{Name: "item4", Tag: ""})
+					TestItem{Name: "item4", Tag: "inc"},
+					TestItem{Name: "item5", Tag: "new"},
+					TestItem{Name: "item6", Tag: "new"})
 			})
-			It("fetches all entities not given a filter", func() {
+			It("fetches all entities given no filter", func() {
 				var items []TestItem
 				err := s.ListEntities(testcoll, nil, &items)
 				Expect(err).To(BeNil())
-				Expect(len(items)).To(Equal(4))
+				Expect(len(items)).To(Equal(6))
 				Expect(items[0].Name).To(Equal("item1"))
 				Expect(items[1].Name).To(Equal("item2"))
 				Expect(items[2].Name).To(Equal("item3"))
 				Expect(items[3].Name).To(Equal("item4"))
+				Expect(items[4].Name).To(Equal("item5"))
+				Expect(items[5].Name).To(Equal("item6"))
 			})
-			It("fetches all entities given a filter", func() {
+			It("fetches matching entities given a equals filter", func() {
 				var items []TestItem
-				err := s.ListEntities(testcoll, bson.M{"tag": "imp"}, &items)
+				err := s.ListEntities(testcoll, url.Values{"tag": []string{"imp"}}, &items)
 				Expect(err).To(BeNil())
 				Expect(len(items)).To(Equal(2))
 				Expect(items[0].Name).To(Equal("item2"))
 				Expect(items[1].Name).To(Equal("item3"))
+			})
+			It("fetches matching entities given an in filter", func() {
+				var items []TestItem
+				err := s.ListEntities(testcoll, url.Values{"tag": []string{"imp", "new"}}, &items)
+				Expect(err).To(BeNil())
+				Expect(len(items)).To(Equal(4))
+				Expect(items[0].Name).To(Equal("item2"))
+				Expect(items[1].Name).To(Equal("item3"))
+				Expect(items[2].Name).To(Equal("item5"))
+				Expect(items[3].Name).To(Equal("item6"))
+			})
+			It("fetches matching entities given a regex filter", func() {
+				var items []TestItem
+				err := s.ListEntities(testcoll, url.Values{"tag~": []string{"^i"}}, &items)
+				Expect(err).To(BeNil())
+				Expect(len(items)).To(Equal(3))
+				Expect(items[0].Name).To(Equal("item2"))
+				Expect(items[1].Name).To(Equal("item3"))
+				Expect(items[2].Name).To(Equal("item4"))
 			})
 		})
 
@@ -110,7 +134,7 @@ var _ = Describe("MongoStore", func() {
 			})
 			It("returns an empty slice given a filter", func() {
 				var items []TestItem
-				err := s.ListEntities(testcoll, bson.M{"tag": "imp"}, &items)
+				err := s.ListEntities(testcoll, url.Values{"tag": []string{"imp"}}, &items)
 				Expect(err).To(BeNil())
 				Expect(len(items)).To(Equal(0))
 			})

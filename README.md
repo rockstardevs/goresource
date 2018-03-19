@@ -109,6 +109,12 @@ To run all tests recursively
 ```sh
 ginkgo -r
 ```
+## Updating Mocks
+
+```sh
+mockgen -package mocks -destination mocks/store.go goresource/store Store
+mockgen -package mocks -destination mocks/manager.go goresource ResourceManager
+```
 
 ## TODO/What could be better
 

@@ -56,9 +56,9 @@ func (manager DefaultManager) CreateEntity(e Entity, _ url.Values) (interface{},
 }
 
 // ListEntities fetches all resource entities.
-func (manager DefaultManager) ListEntities(_ url.Values) (interface{}, error) {
+func (manager DefaultManager) ListEntities(query url.Values) (interface{}, error) {
 	result := make([]map[string]interface{}, 0)
-	if err := manager.Store.ListEntities(manager.Name, nil, &result); err != nil {
+	if err := manager.Store.ListEntities(manager.Name, query, &result); err != nil {
 		return nil, err
 	}
 	return result, nil

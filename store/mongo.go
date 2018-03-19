@@ -2,6 +2,8 @@ package store
 
 import (
 	"fmt"
+	"net/url"
+	"strings"
 	"time"
 
 	"gopkg.in/mgo.v2"
@@ -36,8 +38,20 @@ func NewMongoStore(addr string, database string, timeout time.Duration) (Store, 
 }
 
 // ListEntities queries and returns all entities matching the given filters.
-func (s *MongoStore) ListEntities(name string, filters interface{}, result interface{}) error {
-	err := s.db.C(name).Find(filters).All(result)
+func (s *MongoStore) ListEntities(name string, filters url.Values, result interface{}) error {
+	search := bson.M{}
+	for k, v := range filters {
+		if strings.HasSuffix(k, "~") {
+			search[k[0:len(k)-1]] = bson.M{"$regex": v[0], "$options": "im"}
+		} else {
+			if len(v) > 0 {
+				search[k] = bson.M{"$in": v}
+			} else {
+				search[k] = v[0]
+			}
+		}
+	}
+	err := s.db.C(name).Find(search).All(result)
 	if err != nil {
 		return err
 	}
