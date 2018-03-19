@@ -8,7 +8,7 @@ addons:
       - mongodb-org-server
 language: go
 go:
-- 1.10
+- "1.10"
 - 1.9.4
 - tip
 go_import_path: goresource
