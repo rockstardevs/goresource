@@ -1,9 +1,10 @@
 package goresource
 
 import (
-	"goresource/store"
 	"io"
 	"net/url"
+
+	"github.com/rockstardevs/goresource/store"
 )
 
 // ResourceManager is an interface implemented by managers for entities.
