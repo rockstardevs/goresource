@@ -3,10 +3,10 @@ package goresource
 
 import (
 	"fmt"
+	"goresource/util"
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/rockstardevs/goresource/util"
 )
 
 // Entity is an interface implemented by entities we store in the database.
